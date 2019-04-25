@@ -1,0 +1,517 @@
+# the environment file (this file) defines an environment in which acceptance tests can run
+#
+# The tests use the symbolic names for the CMS management server and CMSs (publishers). This
+# allows each environment to use different publishers and allows a test developer to have their
+# own publishers in an environment.
+
+cms_domain: cms.movetv.com
+cms_username: admin  # User name and passwords for login into cms publishers configured under 'publishers' section
+cms_password: xlontestit
+browser: Chrome
+angular_1_browser: Firefox
+
+management_server:
+  hostname: b-gp2-cmsmgt-2.b.movetv.com
+  username: admin.move
+  password: go4w@rd
+
+publishers:
+  testpublisher:  # this is the symbolic name used in features and steps
+    name: b-acceptance_test
+    host_alias: b-acceptance
+    admin_name: admin
+    admin_email: noreply@dishdigital.com
+  upstream:
+    name: b-acceptanceupstream
+    host_alias: b-accup
+    admin_name: admin
+    admin_email: noreply@dishdigital.com
+  downstream:
+    name: b-acceptancedownstream
+    host_alias: b-accdown
+    admin_name: admin
+    admin_email: noreply@dishdigital.com
+  ingestionpublisher:
+    name: b-ingestion
+    host_alias: b-ingestion
+    admin_name: admin
+    admin_email: noreply@dishdigital.com
+#  cms_ui: # different publisher for ui tests
+#    name:
+#    host_alias:
+#    admin_name: admin
+#    admin_email: noreply@dishdigital.com
+
+
+# Ensure 'clientfacing' NEVER gets under 'publishers' section above else uberdeath tool will kill everything.
+# It is only for read only test purposes and points to actual qa/beta/prod depending upon the environment
+clientfacing:
+    name: bbtvbeta.cms.movenetworks.com
+    host_alias: bbtvbeta
+    hostname: bbtvbeta.cms.movenetworks.com
+    username: admin.move
+    password: go4w@rd
+    designated_folder_name: New This Week  # used for test
+    pub_id: 93a256a7
+
+env_specific_settings:
+    ad_info_network_id: "381963"
+    is_prod_env: true
+    cms_vod_ready_exchange: dynamux_mq
+    ad_service_url: http://adapt.qcg19.movetv.com/http://5d40b.s.fwmrm.net/ad/g/1
+
+
+servers:
+  management:  # DON Server Where Publishers Are Created At!!!
+    hostname: b-gp2-cmsmgt-2.b.movetv.com
+    username: cmstester
+    password:
+    ssh_key_filename: data/ssh/cmstesters_key
+    port:
+
+  ui_apps:
+    hostname: b-gp2-cmsmg-2.imovetv.com
+    username: admin.move
+    password: xlontestit
+    server_username: cmstester
+    server_password:
+    ssh_key_filename: data/ssh/cmstesters_key
+    port: 6500
+    super_admin: [CMS_BETA_SUPER_ADMIN@sling.com, cms_beta_super_admin843127]
+    apps:
+      channel_management:
+        alias: Channels
+        admin: [CMS_BETA_CHANNEL_MANAGEMENT_ADMIN@sling.com, cms_beta_channel_management_admin992756]
+        read: [CMS_BETA_CHANNEL_MANAGEMENT_READ@sling.com, cms_beta_channel_management_read952877]
+        update: [CMS_BETA_CHANNEL_MANAGEMENT_UPDATE@sling.com, cms_beta_channel_management_update158278]
+      domain_management:
+        alias: Domains
+        admin: [CMS_BETA_DOMAIN_MANAGEMENT_ADMIN@sling.com, cms_beta_domain_management_admin208374]
+        read: [CMS_BETA_DOMAIN_MANAGEMENT_READ@sling.com, cms_beta_domain_management_read736886]
+        update: [CMS_BETA_DOMAIN_MANAGEMENT_UPDATE@sling.com, cms_beta_domain_management_update659438]
+      offer_management:
+        alias: Offer Management
+        admin: [CMS_BETA_OFFER_MANAGEMENT_ADMIN@sling.com, cms_beta_offer_management_admin883561]
+        read: [CMS_BETA_OFFER_MANAGEMENT_READ@sling.com, cms_beta_offer_management_read471544]
+        update: [CMS_BETA_OFFER_MANAGEMENT_UPDATE@sling.com, cms_beta_offer_management_update881707]
+      source_management:
+        alias: Sources
+        admin: [CMS_BETA_SOURCE_MANAGEMENT_ADMIN@sling.com, cms_beta_source_management_admin828489]
+        read: [CMS_BETA_SOURCE_MANAGEMENT_READ@sling.com, cms_beta_source_management_read940387]
+        update: [CMS_BETA_SOURCE_MANAGEMENT_UPDATE@sling.com, cms_beta_source_management_update458131]
+      image_curation:
+        alias: Image Curation
+        admin: [CMS_BETA_IMAGE_CURATION_ADMIN@sling.com, cms_beta_image_curation_admin658373]
+        read: [CMS_BETA_IMAGE_CURATION_READ@sling.com, cms_beta_image_curation_read465704]
+        update: [CMS_BETA_IMAGE_CURATION_UPDATE@sling.com, cms_beta_image_curation_update335087]
+      subpack_management:
+        alias: SubPacks
+        admin: [CMS_BETA_SUBPACK_MANAGEMENT_ADMIN@sling.com, cms_beta_subpack_management_admin961182]
+        read: [CMS_BETA_SUBPACK_MANAGEMENT_READ@sling.com, cms_beta_subpack_management_read609227]
+        update: [CMS_BETA_SUBPACK_MANAGEMENT_UPDATE@sling.com, cms_beta_subpack_management_update151404]
+      ribbon_management:
+        alias: Screen Composer
+        admin: [CMS_BETA_RIBBON_MANAGEMENT_ADMIN@sling.com, cms_beta_ribbon_management_admin421147]
+        read: [CMS_BETA_RIBBON_MANAGEMENT_READ@sling.com, cms_beta_ribbon_management_read513914]
+        update: [CMS_BETA_RIBBON_MANAGEMENT_UPDATE@sling.com, cms_beta_ribbon_management_update47341]
+      entitlement_management:
+        alias: Entitlements
+        admin: [CMS_BETA_ENTITLEMENT_MANAGEMENT_ADMIN@sling.com, cms_beta_entitlement_management_admin147141]
+        read: [CMS_BETA_ENTITLEMENT_MANAGEMENT_READ@sling.com, cms_beta_entitlement_management_read804336]
+
+  cms_apps:
+    username: CMS_BETA_SUPER_ADMIN@sling.com
+    password: cms_beta_super_admin843127
+
+  epg_tools:
+    hostname: q-gp2-epgtest-1.imovetv.com
+    username: cmstester
+    password:
+    ssh_key_filename: data/ssh/cmstesters_key
+    mappings_dir: /opt/move/mappings
+    local_storage_dir: /var/db_files      # Some tests still need this.
+  
+  epg_tools_database:
+    hostname: 'b-gp2-dbpg64.imovetv.com'
+    port: 5432
+    username: epgtools_test_user
+    password: 'jcijkj!!98zxc'
+    db_name: epgtools_test
+
+  ota_app:
+    hostname: b-gp2-cmsota-1.imovetv.com
+    username: cmstester
+    password:
+    ssh_key_filename: data/ssh/cmstesters_key
+    port: 8000
+    buffer_time_s: 5
+
+  ota_ivory_source_db:  # db connected to ota for making ivory db queries. Used for OTA read only as well
+    hostname: b-gp2-cmsivr-1.imovetv.com
+    username: ivory
+    password: ivory
+    ssh_key_filename:
+    port: 5432
+    db_name: ivory
+
+  elastic_search_db:
+    hostname:
+    username:
+    password:
+    ssh_key_filename:
+    port:
+
+  image_service:  # Also used by OTA image host comparison
+    create_hostname: b-gp2-img-1.imovetv.com
+    read_hostname: b-img.movetv.com
+    username: cmstester
+    password:
+    ssh_key_filename: data/ssh/cmstesters_key
+    port: 80
+    latency: 10  # Wait time in seconds before getting image from read_hostname, post uploading it on create_hostname
+
+  image_retriever:
+    hostname: b-gp2-otair-1.imovetv.com
+    username: cmstester
+    password:
+    ssh_key_filename: data/ssh/cmstesters_key
+    port:
+
+  geo_location:
+    hostname: b-gp2-geo-1.b.movetv.com
+    username:
+    password:
+    ssh_key_filename:
+    port: 80
+
+  ivory_server:  # For Ivory End to End testing
+    hostname:
+    username:
+    password:
+    ssh_key_filename:
+    port:
+
+  ivory_database:  # Used by ivory test only (non-bbtv tests)
+    hostname:
+    port:
+    username:
+    password:
+    db_name:
+
+  ivory_readonly_server: # For Ivory read only testing
+    hostname: b-gp2-cmsivr-1.imovetv.com
+    username: cmstester
+    password:
+    ssh_key_filename: data/ssh/cmstesters_key
+    port: 80
+
+  roviftp_server:
+    hostname:
+    username:
+    password:
+    ssh_key_filename:
+    port:
+
+  psql_db:
+    hostname: b-gp2-dbp2-1.b.movetv.com
+    username: cmsmgt002
+    password: Jt431PEsmixTTgQ4iGMQJKhftohzOMpnDF9D
+    ssh_key_filename:
+    port: 5432
+    db_name: cmsmgt002
+
+  promotion_db:
+    hostname:
+    username:
+    password:
+    ssh_key_filename:
+    port:
+    db_name:
+
+  farallon:
+    exchange: farallon_publish_messages
+    env: dev
+
+  metacloud:
+    kafka_host: aws-prelim-kafka01.metacloud.media:9092
+    topic: SlingTV.asset.status.metacloud
+
+  media_view:
+    hostname: mvprod.dishonline.com
+    client_secret: nvyfncid84jf7rhe6dfbf7jg8
+    client_key: e23asery428d23
+
+  rabbit_mq:
+    hostname: b-cg17-mq.imovetv.com
+    username: cmsmgt002
+    password: zoDG75rQZdtMdoTJBbk5nvd6jiUwKgTY90s2
+    ui_port: 15672
+    don_pub_id: XXXXXXXX
+    esni_exchange: esni
+    service_port: 5672
+    vhost: cmsmgt002
+
+  espn_media:
+    hostname: watch.auth.api.espn.com
+    api_key: zzfjgt4zr9s9u2fj5ctwzv87
+
+  dyna_admin:
+    env: beta
+    hostname: b-gp2-dynadm-1.b.movetv.com
+
+  psql_db_clientfacing:
+    hostname: b-gp2-dbp2-1.b.movetv.com
+    username: cmsmgt002
+    password: Jt431PEsmixTTgQ4iGMQJKhftohzOMpnDF9D
+    ssh_key_filename:
+    port: 5432
+    db_name: cmsmgt002
+    pub_id: 93A256A7  # BBTV pub ID for read only test
+
+  program_service:
+    hostname:
+    username:
+    password:
+    port:
+    ssh_key_filename:
+    kafka:
+      franchise_sync_topic:
+      season_sync_topic:
+      program_sync_topic:
+      asset_sync_topic:
+      team_sync_topic:
+      program_update_topic:
+      consumer_id:
+      readonly_consumer_id:
+    database:
+      hostname:
+      port:
+      username:
+      password:
+      db_name:
+
+  tally_supair_service:
+    host:
+      hostname:
+      username:
+      password:
+      ssh_key_filename:
+    kafka:
+      metacloud_supair_write_topic:
+      metacloud_supair_synonym_write_topic:
+      tally_supair_sync_topic:
+      supair_synonym_topic:
+      program_sync_topic:
+      program_service_consumer_group:
+      metacloud_consumer_group:
+      synonym_consumer_group:
+      readony_consumer_group:
+    database:
+      hostname:
+      port:
+      user:
+      password:
+      database:
+
+  tally_autosuggest_service:
+    hostname:
+    username:
+    password:
+    kafka:
+      autosuggest_topic:
+    database:
+      hostname:
+      port:
+      user:
+      password:
+      database:
+
+  cms_networker:
+    hostname:
+    username:
+    password:
+    ssh_key_filename:
+    port:
+    kafka:
+      avail_consumer_id:
+      asset_sync_topic:
+      avail_sync_topic:
+      program_update_consumer_id:
+      program_update_topic:
+      channel_consumer_id:
+      channel_sync_topic:
+      presentation_view_topic:
+      readonly_consumer_id:
+    database:
+      hostname:
+      port:
+      username:
+      password:
+      db_name:
+
+  collection_service:
+    host:
+      hostname:
+      username:
+      password:
+      ssh_key_filename:
+      port:
+    elasticsearch:
+      hostname:
+      port:
+      username:
+      password:
+    elasticsearch2:
+      hostname:
+      port:
+      collections_index:
+      tiles_index:
+      username:
+      password:
+    elasticsearch3:
+      hostname:
+      port:
+      collections_index:
+      tiles_index:
+      username:
+      password:
+    kafka:
+      collections_topic:
+      collections_connector:
+      collections_connector_group:
+      tiles_topic:
+      tiles_connector:
+      tiles_connector_group:
+      readonly_consumer_id:
+      pv_topic:
+      pv_consumer_id:
+      autosuggest_topic:
+      autosuggest_consumer_id:
+
+  promotion_service:
+    hostname:
+    username:
+    password:
+    app_username:
+    app_password:
+    ssh_key_filename:
+    port:
+    kafka:
+      avail_consumer_id:
+      avail_sync_topic:
+      asset_sync_topic:
+      asset_consumer_id:
+      program_update_consumer_id:
+      program_update_topic:
+      channel_consumer_id:
+      channel_sync_topic:
+      subpack_consumer_id:
+      subpack_sync_topic:
+      presentation_view_topic:
+      readonly_consumer_id:
+
+  mgsearch:
+    hostname:
+    username:
+    password:
+    ssh_key_filename:
+    port:
+    kafka:
+      presentation_view_topic:
+      pv_consumer_id:
+      tally_supair_topic:
+      tally_supair_syn_topic:
+      tally_consumer_id:
+    database:
+      hostname:
+      username:
+      password:
+      port:
+      db_name:
+
+  skynet:
+    hostname:
+    port:
+    username:
+    password:
+    api_username:
+    api_password:
+    es_hostname:
+    es_port:
+
+  # media graph config here, keep in one place per munish -srp
+  mediagraph:
+    rabbit:
+      host: b-cg17-mq.imovetv.com
+      username: cmsmgt002
+      password: zoDG75rQZdtMdoTJBbk5nvd6jiUwKgTY90s2
+      port: 5672
+      heartbeat: 10
+      cms_sync_queue:   # may not need this, just use main exchange and routing sync routing key
+      cms_routing_key:  # rabbit mq routing key: cms.<pubid>.sync.<everything> (guid, etc.)
+      exchange:
+    kafka:
+      cluster:
+      hosts:
+        -
+        -
+        -
+      port:
+      common_config:
+        bootstrap.servers:
+        api.version.request:
+        session.timeout.ms:
+        group.id:
+      producer_config:
+        bootstrap.servers:
+        api.version.request:
+        session.timeout.ms:
+        group.id:
+      consumer_config:
+        bootstrap.servers:
+        api.version.request:
+        session.timeout.ms:
+        group.id:
+        default.topic.config:
+          auto.offset.reset:
+      kafka_consumer_config:
+        bootstrap_servers:
+        group_id:
+        auto_offset_reset:
+        consumer_timeout_ms:
+      all_topics:             # maintain list of topics set up in kafka or those that are required (end with _test)
+        - asset
+        - folder
+        - availability
+        - franchise
+        - program
+        - season
+        - channel
+        - collections
+        - presentation-view
+        - program-update
+        - tiles
+        - subscription-pack
+        - tally-autosuggest
+        - tally-supair
+        - team
+      cms_sync_topics:        # maintain list of topics that get messages pushed from cms / sync messages
+        - asset
+        - folder
+        - availability
+        - franchise
+        - program
+        - season
+        - channel
+        - subscription-pack
+        - team
+    storm:
+      ui:  # we will need this possibly to use rest api
+      topology:
+        name:
+        id:
+      rest:
+        cluster: none
+        supervisor: none
+        topology: none
+        last_response: none

@@ -1,0 +1,534 @@
+# the environment file (this file) defines an environment in which acceptance tests can run
+#
+# The tests use the symbolic names for the CMS management server and CMSs (publishers). This
+# allows each environment to use different publishers and allows a test developer to have their
+# own publishers in an environment.
+
+# You may need to add entries to /etc/hosts like:
+# 192.168.56.11   acceptance.dev.local shree.dev.local cmsmgt.dev.local ingestion.dev.local accdown.dev.local accup.dev.local rabbitmq.dev.local
+
+cms_domain: dev.local
+cms_username: admin.move  # User name and passwords for login into cms publishers configured under 'publishers' section
+cms_password: xlontestit
+angular_1_browser: Firefox
+
+management_server:
+  hostname: cmsmgt.dev.local
+  username: admin.move
+  password: xlontestit
+
+publishers:
+  testpublisher:  # this is the symbolic name used in features and steps
+    name: acceptance_test
+    host_alias: acceptance
+    admin_name: admin
+    admin_email: noreply@dishdigital.com
+  upstream:
+    name: acceptanceupstream
+    host_alias: accup
+    admin_name: admin
+    admin_email: noreply@dishdigital.com
+  downstream:
+    name: acceptancedownstream
+    host_alias: accdown
+    admin_name: admin
+    admin_email: noreply@dishdigital.com
+  ingestionpublisher:
+    name: ingestion
+    host_alias: ingestion
+    admin_name: admin
+    admin_email: noreply@dishdigital.com
+  cms_ui: # different publisher for ui tests
+    name: uiapps
+    host_alias: uiapps
+    admin_name: admin
+    admin_email: noreply@dishdigital.com
+
+# Ensure 'clientfacing' NEVER gets under 'publishers' section above else uberdeath tool will kill everything.
+# It is only for read only test purposes and points to actual qa/beta/prod depending upon the environment
+clientfacing:
+    name: bbtv.d.movetv.com
+    host_alias: bbtv
+    hostname: bbtv.d.movetv.com
+    username: admin.move
+    password: xlontestit
+    designated_folder_name: New Releases
+    pub_id: 4c2689ec
+
+env_specific_settings:
+    ad_info_network_id: "381963"
+    is_prod_env: false
+    cms_vod_ready_exchange: dynamux_mq
+    ad_service_url: http://adapt.qcg20.movetv.com/http://5d40a.s.fwmrm.net/ad/g/1
+
+servers:
+  management:  # DON Server Where Publishers Are Created At!!! (This seems redundant with management_server above).
+    hostname: cmsmgt.dev.local
+    username: administrator
+    password: xlontestit
+    ssh_key_filename:
+    port:
+
+  ui_apps:
+    hostname: d-gp2-cmsmg-2.imovetv.com
+    username: admin.move
+    password: xlontestit
+    server_username: administrator
+    server_password: xlontestit
+    port: 6500
+    super_admin: [mgadmin@dish.com, test!ng]
+    apps:
+      channel_management:
+        alias: Channels
+        admin: mg_test_cm_admin@dish.com
+        read: mg_test_cm_read@dish.com
+        update: mg_test_cm_update@dish.com
+        password: test!ng
+      domain_management:
+        alias: Domains
+        admin: mg_test_dm_admin@dish.com
+        read: mg_test_dm_read@dish.com
+        update: mg_test_dm_update@dish.com
+        password: test!ng
+      offer_management:
+        alias: Offer Management
+        admin: mg_test_om_admin@dish.com
+        read: mg_test_om_read@dish.com
+        update: mg_test_om_update@dish.com
+        password: test!ng
+      source_management:
+        alias: Sources
+        admin: mg_test_sm_admin@dish.com
+        read: mg_test_sm_read@dish.com
+        update: mg_test_sm_update@dish.com
+        password: test!ng
+      image_curation:
+        alias: Image Curation
+        admin: mg_test_ic_admin@dish.com
+        read: mg_test_ic_read@dish.com
+        update: mg_test_ic_update@dish.com
+        password: test!ng
+      subpack_management:
+        alias: Subscription Packs
+        admin: mg_test_pm_admin@dish.com
+        read: mg_test_pm_read@dish.com
+        update: mg_test_pm_update@dish.com
+        password: test!ng
+      ribbon_management:
+        alias: Screen Composer
+        admin: mg_test_rb_admin@dish.com
+        read: mg_test_rb_read@dish.com
+        update: mg_test_rb_update@dish.com
+        password: test!ng
+      entitlement_management:
+        alias: Entitlements
+        admin: mg_test_en_admin@dish.com
+        password: test!ng
+      promotion_management:
+        alias: Promotion Management
+        admin: mg_test_pr_admin@dish.com
+        read: mg_test_pr_read@dish.com
+        update: mg_test_pr_update@dish.com
+        password: test!ng
+
+  cms_apps:
+    username: mgadmin@dish.com
+    password: test!ng
+  epg_tools:
+    hostname:
+    username: administrator
+    password:
+    ssh_key_filename: ~/.ssh/id_rsa
+    port:
+    mappings_dir: /opt/move/mappings
+    local_storage_dir: /var/db_files
+
+  epg_tools_database:
+    hostname:
+    port:
+    username:
+    password:
+    db_name:
+  ota_app:
+    hostname: 
+    username: 
+    password:
+    ssh_key_filename:
+    port: 
+    buffer_time_s: 
+
+  ota_ivory_source_db:  # db connected to ota for making ivory db queries. Used for OTA read only as well
+    hostname: 
+    username: 
+    password: 
+    ssh_key_filename:
+    port: 
+    db_name: 
+
+  salt_master:
+    hostname: 
+    username: 
+    password:
+    ssh_key_filename: 
+    port:
+
+  elastic_search_db:
+    hostname: 
+    username:
+    password:
+    ssh_key_filename:
+    port: 
+
+  image_service:  # Also used by OTA image host comparison
+    create_hostname: d-gp2-img-2.imovetv.com
+    read_hostname: d-gp2-img-2.imovetv.com
+    username: administrator
+    password:
+    ssh_key_filename: ~/.ssh/id_rsa
+    port: 80
+    latency: 0  # Wait time in seconds before getting image from read_hostname, post uploading it on create_hostname
+
+  image_retriever:
+    hostname: 
+    username: 
+    password:
+    ssh_key_filename: 
+    port:
+
+  geo_location:
+    hostname: d-gp2-geo-1.d.movetv.com
+    username: administrator
+    password: xlontestit
+    ssh_key_filename:
+    port: 80
+
+  ivory_server:  # For Ivory End to End testing
+    hostname: 
+    username: 
+    password: 
+    ssh_key_filename: 
+    port: 
+
+  ivory_database:  # Used by ivory test only (non-bbtv tests)
+    hostname:
+    port:
+    username:
+    password:
+    db_name:
+
+  ivory_readonly_server:  # For Ivory read only testing
+    hostname: d-gp2-cmsunk-1.imovetv.com
+    username: eng
+    password:
+    ssh_key_filename: ~/.ssh/id_rsa
+    port: 80
+
+  roviftp_server:
+    hostname: d-gp2-roviftp-1.imovetv.com
+    username: administrator
+    password: xlontestit
+    ssh_key_filename:
+    port:
+
+  psql_db:
+    hostname: d-gp2-dbp19-1.d.movetv.com
+    username: cmsmgt
+    password: DevJ2bva63xKX5FxKDGbsGeJM7L6gkcQunpn
+    ssh_key_filename:
+    port: 5432
+    db_name: cmsmgt002
+
+  promotion_db:
+    hostname:
+    username:
+    password:
+    ssh_key_filename:
+    port: 
+    db_name: 
+
+  farallon:
+    exchange: farallon_publish_messages
+    env: local
+
+  metacloud:
+    kafka_host: aws-prelim-kafka01.metacloud.media:9092
+    topic: SlingTV.asset.status.metacloud
+
+  media_view:
+    hostname: mvprod.dishonline.com
+    client_secret: nvyfncid84jf7rhe6dfbf7jg8
+    client_key: e23asery428d23
+
+  rabbit_mq:
+    hostname: rabbitmq.dev.local
+    username: devcms
+    password: devcms
+    ui_port: 15672
+    don_pub_id: XXXXXXXX
+    esni_exchange: esni
+    service_port: 5672
+    vhost: Null
+
+  espn_media:
+    hostname: watch.auth.api.espn.com
+    api_key: zzfjgt4zr9s9u2fj5ctwzv87
+
+  dyna_admin:
+    env: dev
+    hostname: d-gp2-dynadm-1.dev.movenetworks.com
+
+  psql_db_clientfacing:  # Required for pagination test case only (READ ONLY QUERY TO GET COUNT OF OBJECTS BEFORE HITTING API)
+    hostname: d-gp2-dbp21-1.d.movetv.com
+    username: cmsmgt
+    password: DevJ2bva63xKX5FxKDGbsGeJM7L6gkcQunpn
+    ssh_key_filename:
+    port: 5432
+    db_name: cmsmgt001
+    pub_id: 4c2689ec
+
+  program_service:
+    hostname:
+    username:
+    password:
+    port:
+    kafka:
+      franchise_sync_topic:
+      season_sync_topic:
+      program_sync_topic:
+      asset_sync_topic:
+      team_sync_topic:
+      program_update_topic:
+      consumer_id:
+      readonly_consumer_id:
+    database:
+      hostname:
+      port:
+      username:
+      password:
+      db_name:
+
+  tally_supair_service:
+    host:
+      hostname:
+      username:
+      password:
+      ssh_key_filename:
+    kafka:
+      metacloud_supair_write_topic:
+      metacloud_supair_synonym_write_topic:
+      tally_supair_sync_topic:
+      supair_synonym_topic:
+      program_sync_topic:
+      program_service_consumer_group:
+      metacloud_consumer_group:
+      synonym_consumer_group:
+      readony_consumer_group:
+    database:
+      hostname:
+      port:
+      user:
+      password:
+      database:
+
+  tally_autosuggest_service:
+    hostname:
+    username:
+    password:
+    kafka:
+      autosuggest_topic:
+    database:
+      hostname:
+      port:
+      user:
+      password:
+      database:
+
+  cms_networker:
+    hostname:
+    username:
+    password:
+    port:
+    kafka:
+      avail_consumer_id:
+      asset_sync_topic:
+      avail_sync_topic:
+      program_update_consumer_id:
+      program_update_topic:
+      channel_consumer_id:
+      channel_sync_topic:
+      presentation_view_topic:
+      readonly_consumer_id:
+    database:
+      hostname:
+      port:
+      username:
+      password:
+      db_name:
+
+  collection_service:
+    host:
+      hostname:
+      username:
+      password:
+      ssh_key_filename:
+      port:
+    elasticsearch:
+      hostname:
+      port:
+      username:
+      password:
+    elasticsearch2:
+      hostname:
+      port:
+      collections_index:
+      tiles_index:
+      username:
+      password:
+    elasticsearch3:
+      hostname:
+      port:
+      collections_index:
+      tiles_index:
+      username:
+      password:
+    kafka:
+      collections_topic:
+      collections_connector:
+      collections_connector_group:
+      tiles_topic:
+      tiles_connector:
+      tiles_connector_group:
+      readonly_consumer_id:
+      pv_topic:
+      pv_consumer_id:
+      autosuggest_topic:
+      autosuggest_consumer_id:
+
+  promotion_service:
+    hostname:
+    username:
+    password:
+    app_username:
+    app_password:
+    ssh_key_filename:
+    port:
+    kafka:
+      avail_consumer_id:
+      avail_sync_topic:
+      asset_sync_topic:
+      asset_consumer_id:
+      program_update_consumer_id:
+      program_update_topic:
+      channel_consumer_id:
+      channel_sync_topic:
+      subpack_consumer_id:
+      subpack_sync_topic:
+      presentation_view_topic:
+      readonly_consumer_id:
+
+  mgsearch:
+    hostname:
+    username:
+    password:
+    ssh_key_filename:
+    port:
+    kafka:
+      presentation_view_topic:
+      pv_consumer_id:
+      tally_supair_topic:
+      tally_supair_syn_topic:
+      tally_consumer_id:
+    database:
+      hostname:
+      username:
+      password:
+      port:
+      db_name:
+
+  skynet:
+    hostname: localhost
+    username: x
+    password: y
+    port: 8899
+    api_username: cmstest1@movenetworks.com
+    api_password: cmstest
+    es_hostname: d-gp2-es48-1.imovetv.com
+    es_port: 9200
+
+  # media graph config here, keep in one place per munish -srp
+  mediagraph:
+    rabbit:
+      host: rabbitmq.dev.local
+      username: devcms
+      password: devcms
+      port: 5672
+      heartbeat: 10
+      cms_sync_queue:  # may not need this, just use main exchange and routing sync routing key
+      cms_routing_key:   # rabbit mq routing key: cms.<pubid>.sync.<everything> (guid, etc.)
+      exchange: main
+    # is there something needed for storm/topology directly ? (assume this is only used through kafka)
+    kafka:
+      cluster:  # or you could put individual brokers in list
+      hosts:
+        -
+        -
+        -
+      port:
+      common_config:
+        bootstrap.servers:
+        api.version.request:
+        session.timeout.ms:
+        group.id:
+      producer_config:
+        bootstrap.servers:
+        api.version.request:
+        session.timeout.ms:
+        group.id:
+      consumer_config:
+        bootstrap.servers:
+        api.version.request:
+        session.timeout.ms:
+        group.id:
+        default.topic.config:
+          auto.offset.reset:
+      kafka_consumer_config:
+        bootstrap_servers:
+        group_id:
+        auto_offset_reset:
+        consumer_timeout_ms:
+      all_topics:             # maintain list of topics set up in kafka or those that are required (end with _test)
+        - asset
+        - folder
+        - availability
+        - franchise
+        - program
+        - season
+        - channel
+        - collections
+        - presentation-view
+        - program-update
+        - tiles
+        - subscription-pack
+        - tally-autosuggest
+        - tally-supair
+        - team
+      cms_sync_topics:        # maintain list of topics that get messages pushed from cms / sync messages
+        - asset
+        - folder
+        - availability
+        - franchise
+        - program
+        - season
+        - channel
+        - subscription-pack
+        - team
+    storm:
+      ui:  # we will need this possibly to use rest api
+      topology:
+        name:
+        id:
+      rest:
+        cluster:
+        supervisor:
+        topology:
+        last_response:

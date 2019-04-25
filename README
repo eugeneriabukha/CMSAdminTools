@@ -1,0 +1,126 @@
+This repository contains all of the acceptance tests for the CMS publisher.
+
+Acceptance tests may be run against any selected environment.
+Acceptances tests may also be run in subsets by using tags.
+The acceptance tests may be run from any host, as they communicate with the CMS remotely.
+
+
+Installation
+============
+This is used to prepare an environment from which to run the acceptance tests.
+This is also the environment where test development will occur.
+
+1. install required packages
+    sudo apt-get install git python-pip python-virtualenv python-dev libjpeg-dev
+    sudo apt-get install librdkafka1 librdkafka-dev
+    (for mac brew install librdkafka and brew install libjpeg)
+2. clone the git repository
+    git clone <repo url> <target dir>
+3. setup the virtual environment
+    ./bootstrap
+
+
+Running Behave Tests
+====================
+
+Configuration
+-------------
+Before running tests the configuration must be created to make sure the tests
+run against the correct CMS environment.
+
+TODO: doc how to setup conf files
+
+
+
+Running Selected Tests
+----------------------
+Running is accomplished just by typing "behave". However, it is more often the
+case that only a subset of the tests will be run.
+
+behave TODO: fill this part in
+
+How to run the tests
+    Each file is tagged with unique tag named after the feature itself.
+    e.g sources.feature is tagged with @sources. multiribbon.feature is tagged with @multiribbon etc...
+
+    To Run a specific file, issue command <behave --tags=@tag_name
+    e.g for sources.feature, it will be behave --tags=sources
+    If we want to run all of the test cases, then we do not need to mention any @tag in the command.
+
+    If we want to exclude any specific file from test, we can mention --tags=-@tag_name
+    e.g. If we want to run all of files but sources.feature, then issue command --tags=-sources
+
+    We have segregated the test cases for acceptance and regression cycles. All those test cases tagged with
+    "@acceptance_test" are for acceptance cycle. Rest of them are for regression cycle. acceptance_test tagged test
+    cases take less time to execute than regression cycle, as we have not tagged each vendor/station combination
+    under acceptance_test.
+
+    NOTE: If not mentioning any tag, all of test cases will run AND as of now with INGESTION taking too much time
+    to run for Maker/Echostar ingestion and it may take ~6 hours to finish the execution. Better EXCLUDE ingestion
+    cases before running for a quick result and only take @acceptance_test tagged test cases from ingestion file.
+
+
+    Feature files which hits QA/DEV publishers for READ only methods (GET) along with acceptance_test publisher for
+    deeper testing are tagged with: @ingestion, @qvt_links, @multiribbon, @celeb, @geo_location, @bbtv
+
+    NOTE: We have test cases tagged with @bbtv for those test cases which are run on other than acceptance_test
+    publisher. IF we only want to run test cases on our publisher, then we should give command --tags=-bbtv
+
+    Usually we run test cases with following tags:
+        - For acceptance_test: --tags=acceptance_test --tags=-CMS_Known_Bugs
+        - For regression_test: --tags=-ingestion --tags=-CMS_Known_Bugs
+        - For Ingestion: --tags=ingestion --tags=-CMS_Known_Bugs
+        NOTE: For any new release, we will take out 'CMS_Known_Bugs' and run for every test case AND we will tag
+        test cases with 'CMS_Known_Bugs' after we know the known bugs in given release.
+
+
+Development of Tests
+====================
+
+Remove all the .pyc files and the virtual environment
+./clean
+
+Update/create/install the virtual environment and dependencies. Should be used after every git pull.
+./update
+
+Run tests of the acceptance test project (doesn't run the acceptance tests.
+./testit
+
+Configuration of the tests run by testit is in pep8rc and pylintrc.
+
+
+Tags Management
+===============
+A tag expression can have several tags separated by a comma, which represents logical OR
+e.g. --tags=@acceptance_test,@pub_upgrade
+    # This will run all acceptance_test tagged test cases/feature files OR tagged with pub_upgrade
+
+The –tags option can be specified several times, and this represents logical AND
+e.g. --tags=@acceptance_test --tags=@pub_upgrade
+    # This will run all test cases/feature files tagged with acceptance_test AND pub_upgrade
+
+Beware that if you want to use several negative tags to exclude several tags you have to use logical AND
+e.g. --tags=@acceptance_test --tags=-CMS_Known_Bugs
+
+
+We have added command line arguments to behave in terms of @tags to allow/block specific functionality
+We allow "pub_upgrade", "jira_update", and "uberdeath" tags to do special functionality before
+running the test
+e.g.
+    - If we wish to upgrade the publisher during our test, We need to specify "--tags=xyz,pub_upgrade" # logical OR
+        - Defualt pub_upgrade is FALSE. It gets value TRUE only when test triggers from Jenkins via any release build
+
+    - If we wish TO update Jira tickets during execution, we need to specify "--tags=xyz,jira_update" #logical OR
+        - Dafult jira_update is FALSE. This is only helpful while debugging an issue
+
+    - If we wish Run uberdeath tool during the test, we need to specify "--tags=xyz,uberdeath" # logical OR
+        - Default is FALSE. It only get value TRUE when triggers from Jenkins with our Acceptance Test
+    NOTE: In above 3 examples, we are using logical OR. If we would have AND logic then none of the test cases tagged
+    with @xyz.. will be executed because we do not have any TEST CASE tagged with either of "pub_upgrade",
+    "jira_update" "uberdeath"
+
+
+Running against a specific environment
+======================================
+Environment is a first-class argument, and is passed in via the command line, in standard argparse format.
+This way, you can specify any of the pre-defined environments (via --env), or a custom environment (--env-file).

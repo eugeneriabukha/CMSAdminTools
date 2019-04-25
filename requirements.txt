@@ -1,0 +1,45 @@
+astroid==1.3.8
+attrdict==1.1.0
+autopep8==1.2.1
+behave==1.2.4
+bunch==1.0.1
+ecdsa==0.13
+enum34==1.0.4
+isodate==0.4.9
+jira==0.50
+logilab-common==1.0.2
+oauthlib==1.0.3
+ordereddict==1.1
+packaging==15.3
+paramiko==1.15.2
+parse==1.6.6
+parse-type==0.3.4
+pep8==1.6.2
+pycrypto==2.6.1
+pylint==1.4.4
+PyYAML==3.11
+requests==2.7.0
+requests-oauthlib==0.5.0
+requests-toolbelt==0.4.0
+scp==0.10.2
+six==1.9.0
+tlslite==0.4.9
+wheel==0.30.0
+selenium==3.11.0
+psycopg2==2.6.1   # 2.7.1 was required for Glenn for bootstrap to run on Mac
+Pillow===3.1.1
+pika==0.10.0
+xmltodict==0.10.1
+pysftp==0.2.8
+python-dateutil==2.6.1
+gevent==1.2.2
+scandir==1.6
+ipython==5
+voluptuous==0.8.5.1
+#appnope==0.1.0          # Only for Mac
+kazoo==2.6.1
+pykafka==2.7.0
+confluent-kafka==0.11.6     # If using MAC, got error on installing confluent-kafka client, run this command first: brew install librdkafka
+elasticsearch==6.0.0
+# pyautogui==0.9.36         # commenting this out temporarily until bootstrap install is fixed
+texttable==1.4.0
